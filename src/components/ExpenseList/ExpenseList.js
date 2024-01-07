@@ -1,20 +1,23 @@
 import React from "react";
 import styles from "./ExpenseList.module.css";
+import Transaction from "../Transaction/Transaction.js";
 
-export default class ExpenseList extends React.Component {
-  render() {
-    const { expenseList } = this.props;
-    return (
-      <div className={styles.expenseListContainer}>
-        <h3>Transactions</h3>
-        <ul className={styles.transactionList}>
-          {
-            expenseList.map((element, i) => (
-              <li key={i}>{element}</li>
-            ))
-          }
-        </ul>
-      </div>
-    );
-  }
-}
+const ExpenseList = (props) => {
+  const deleteHandler = (index) => {
+    props.deleteHandler(index);
+    //console.log("Deleting transaction at index:", index);
+  };
+
+  return (
+    <div className={styles.expenseListContainer}>
+      <h3>Transactions</h3>
+      <ul className={styles.transactionList}>
+        {props.expenses.map((element, i) => (
+          <Transaction expense={element} key={i} index={i} deleteHandler={deleteHandler} />
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default ExpenseList;

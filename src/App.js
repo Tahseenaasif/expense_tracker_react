@@ -1,38 +1,33 @@
-import "./App.css";
-import React from "react";
+import { useState } from "react";
 import ExpenseForm from "./components/ExpenseForm/ExpenseForm";
 import ExpenseInfo from "./components/ExpenseInfo/ExpenseInfo";
 import ExpenseList from "./components/ExpenseList/ExpenseList";
+import "./App.css";
 
-export default class App extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      amount: 0,
-      expenseList: [] 
-    };
-  }
+function App() {
+  const [expenses, setExpenses] = useState([]);
 
-  onFormSubmit = (amount, type) => {
-   
-    this.setState((prevState) => ({
-      amount: amount,
-      expenseList: prevState.expenseList.concat(type)
-    }));
+  const expenseHandler = (type, amount) => {
+    //console.log("this is expense type", type, "this is expense amount", amount);
+    setExpenses([...expenses, { text: type, amount: amount }]);
   };
 
-  render() {
-    return (
-      <>
-        <h2 className="mainHeading">Expense Tracker</h2>
-        <div className="App">
-          <ExpenseForm onFormSubmit={this.onFormSubmit} />
-          <div className="expenseContainer">
-            <ExpenseInfo expenseType={this.state.type} amount={this.state.amount} />
-            <ExpenseList expenseList={this.state.expenseList} />
-          </div>
+  const deleteHandler = (index) => {
+    setExpenses(expenses.filter((_, i) => i !== index));
+  };
+
+  return (
+    <>
+      <h2 className="mainHeading">Expense Tracker</h2>
+      <div className="App">
+        <ExpenseForm expenseHandler={expenseHandler} />
+        <div className="expenseContainer">
+          <ExpenseInfo expenses={expenses} />
+          <ExpenseList expenses={expenses} deleteHandler={deleteHandler} />
         </div>
-      </>
-    );
-  }
+      </div>
+    </>
+  );
 }
+
+export default App;
