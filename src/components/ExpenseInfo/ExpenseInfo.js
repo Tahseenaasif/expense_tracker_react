@@ -1,51 +1,36 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styles from "./ExpenseInfo.module.css";
 
-const ExpenseInfo = (props) => {
-  const [balance, setBalance] = useState(0);
-  const [incomeAmount, setIncomeAmount] = useState(0);
-  const [expenseAmount, setExpenseAmount] = useState(0);
-
-  useEffect(() => {
-    updateState();
-  }, [props.expenses]);
-
-  const updateState = () => {
-    let totalExpense = 0;
-    let totalIncome = 0;
-
-    props.expenses.forEach((element) => {
-      const numericAmount = Number(element.amount || 0);
-
-      if (numericAmount < 0) {
-        totalExpense += numericAmount;
-      } else if (numericAmount > 0) {
-        totalIncome += numericAmount;
-      }
-    });
-
-    setBalance(totalIncome + totalExpense);
-    setExpenseAmount(totalExpense);
-    setIncomeAmount(totalIncome);
-  };
+const ExpenseInfo = ({ expenses }) => {
+  let profitAmount = 0;
+  let lossAmount = 0;
+  const grandTotal = expenses.reduce((acc, currentExpense) => {
+    const currentExpenseAmount = parseInt(currentExpense.amount);
+    if (currentExpenseAmount < 0) {
+      lossAmount += currentExpenseAmount;
+    } else {
+      profitAmount += currentExpenseAmount;
+    }
+    return currentExpenseAmount + acc;
+  }, 0);
 
   return (
     <div className={styles.expenseInfoContainer}>
       <div className={styles.balance}>
         <h4>YOUR BALANCE</h4>
-        <h1>${balance}</h1>
+        <h1>${grandTotal.toFixed(2)}</h1>
       </div>
       <div className={styles.incomeExpenseContainer}>
         <div>
           <h4>Income</h4>
           <p id="money-plus" className={`${styles.money} ${styles.plus}`}>
-            +${incomeAmount}
+            +${profitAmount}
           </p>
         </div>
         <div>
           <h4>Expense</h4>
           <p id="money-minus" className={`${styles.money} ${styles.minus}`}>
-            -${expenseAmount}
+            -${lossAmount}
           </p>
         </div>
       </div>

@@ -33,10 +33,5 @@
     "test": "react-scripts test --watchAll=false '--testResultsProcessor=<rootDir>/custom-reporter' '--silent' '--maxWorkers=2' ./",
     "eject": "react-scripts eject"
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+  "browserslist": [">0.2%", "not dead", "not ie <= 11", "not op_mini all"]
 }

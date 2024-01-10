@@ -1,20 +1,24 @@
 import React from "react";
 import styles from "./ExpenseList.module.css";
-import Transaction from "../Transaction/Transaction.js";
+import Transaction from "../Transaction/Transaction";
 
-const ExpenseList = (props) => {
-  const deleteHandler = (index) => {
-    props.deleteHandler(index);
-    //console.log("Deleting transaction at index:", index);
-  };
-
+const ExpenseList = ({ expenses, deleteExpense,editExpense }) => {
   return (
     <div className={styles.expenseListContainer}>
       <h3>Transactions</h3>
       <ul className={styles.transactionList}>
-        {props.expenses.map((element, i) => (
-          <Transaction expense={element} key={i} index={i} deleteHandler={deleteHandler} />
-        ))}
+        {expenses.map((expense, i) => {
+          return (
+            <Transaction
+              index={i}
+              key={expense.id}
+              expense={expense}
+              deleteExpense={deleteExpense}
+              editExpense={editExpense}
+              //Pass props here to handle updation
+            />
+          );
+        })}
       </ul>
     </div>
   );
